@@ -1,20 +1,28 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 using System.Collections;
 
 public class randompunchscript : MonoBehaviour {
     public GameObject head;
     private IEnumerator routine;
     private IEnumerator delay;
-    int myHealth = 100;
+
+    public AudioSource source;
+    public AudioClip sword1;
+    public AudioClip sword2;
+    public AudioClip death;
+    public AudioClip evil;
+
+    public int myHealth = 100;
     public bool isGoodPunch = true;
     public bool hit = false;
 
     public Text myHealthText;
     public GameObject caesar;
     public Text result;
+    public Slider healthSlider;
 
     // GameObject fist;
     //public GameObject right;
@@ -23,9 +31,9 @@ public class randompunchscript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        StartCoroutine(Delay(Random.Range(0.5f, 1.5f)));
-        myHealthText.text = "My health: " + myHealth.ToString();
-
+        StartCoroutine(Delay(Random.Range(0.2f, 0.6f)));
+        source.clip = evil;
+        source.Play();
     }
 
     // Update is called once per frame
@@ -35,20 +43,14 @@ public class randompunchscript : MonoBehaviour {
         {
             // Debug.Log("Caesar lives another day");
             myHealthText.text = "Caesar lives another day!  ";
-             Destroy(caesar);
+            Destroy(caesar);
             result.text = "You lose!";
             StartCoroutine(Restart());
         }
-
-        myHealthText.text = "My health: " + myHealth.ToString();
-
-
-
     }
 
     IEnumerator PunchLocation(GameObject glove)
     {
-
         while (true)
         {
             float duration = 1.0f;
@@ -69,14 +71,21 @@ public class randompunchscript : MonoBehaviour {
             if (isGoodPunch)
             {
                 glove.transform.position = endPosition;
-                myHealth -= 10;                 
+                myHealth -= 10;
+                source.clip = death;
             }
 
             else
             {
                 endPosition = glove.transform.position;
                 myHealth -= 5;
+
             }
+
+            healthSlider.value = myHealth;
+
+
+
 
             for (float i = 0; i < duration; i += Time.deltaTime)
             {
@@ -88,8 +97,9 @@ public class randompunchscript : MonoBehaviour {
             
             glove.transform.position = startPosition;
 
-            yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
-            Debug.Log(myHealth);
+            yield return new WaitForSeconds(Random.Range(0.2f, 0.6f));
+            source.Play();
+
         }
     }
 
@@ -109,9 +119,5 @@ public class randompunchscript : MonoBehaviour {
 
         // Code to execute after the delay
         SceneManager.LoadScene(0);
-
-
     }
-
-   
 }

@@ -4,14 +4,26 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class damage : MonoBehaviour {
-    int health;
+    public int health;
     public GameObject caesar;
     public Text CaesarHealthText;
     public Text result;
+    public Slider healthSlider;
+
+    public AudioSource source;
+    public AudioClip sword1;
+    public AudioClip sword2;
+    public AudioClip death;
+    public AudioClip evil;
+
+
 
     // Use this for initialization
     void Start () {
         health = 100;
+        healthSlider.value = health;
+        source.clip = evil;
+        source.Play();
 	}
 	
 	// Update is called once per frame
@@ -22,18 +34,24 @@ public class damage : MonoBehaviour {
             CaesarHealthText.text = "Caesar's dead. Again."; 
             Destroy(caesar);
             result.text = "You win!";
-            StartCoroutine(Restart());
-            StartCoroutine(Restart());
-
-
         }
     }
 
     void OnCollisionExit(Collision collision)
     {
         health -= 3;
+        healthSlider.value = health;
+        if (Random.Range(0, 1) <= .5f)
+        {
+            source.clip = sword1;
+        }
+        else
+        {
+            source.clip = sword2;
+        }
+
+        source.Play();
         // Debug.Log("Ouch!");
-        CaesarHealthText.text = "Caesar's health: " + health.ToString();
 
     }
 
