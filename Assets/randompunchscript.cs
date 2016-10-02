@@ -79,7 +79,13 @@ public class randompunchscript : MonoBehaviour {
             {
                 endPosition = glove.transform.position;
                 myHealth -= 5;
-
+                if ((Random.Range(0, 1)) <= .5)
+                {
+                    source.clip = sword1;
+                } else
+                {
+                    source.clip = sword2;
+                }
             }
 
             healthSlider.value = myHealth;
