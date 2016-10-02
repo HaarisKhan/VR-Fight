@@ -15,6 +15,10 @@ public class motorvibration : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("testing");
+        if (other.GetComponent<randompunchscript>())
+        {
+            other.GetComponent<randompunchscript>().hit = true;
+
+        }
     }
 }

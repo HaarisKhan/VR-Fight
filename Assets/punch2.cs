@@ -9,7 +9,8 @@
         // Use this for initialization
         SerialPort serial;
         private IEnumerator enumerator;
-        void Start()
+       
+    void Start()
         {
             serial = new SerialPort("COM4", 9600);
 
@@ -22,11 +23,9 @@
         }
 
 
-
-
-        void OnTriggerEnter(Collider other)
+        void OnTriggerExit(Collider other)
         {
-            if (!serial.IsOpen)
+        if (!serial.IsOpen)
             {
                 serial.Open();
             }
@@ -38,10 +37,11 @@
 
         }
 
+
         IEnumerator ExecuteAfterTime(float time)
         {
             yield return new WaitForSeconds(time);
-            Debug.Log("Executing after .25 seconds");
+         //   Debug.Log("Executing after .25 seconds");
             serial.Write("0");
         serial.Close();
 
@@ -49,6 +49,8 @@
 
 
     }
+
+   
 
 }
 
