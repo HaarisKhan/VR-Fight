@@ -1,55 +1,56 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.IO.Ports;
+﻿
+    using UnityEngine;
+    using System.Collections;
+    using System.IO.Ports;
 
 
-public class punch2 : MonoBehaviour
-{
-    private bool punched = false;
-    // Use this for initialization
-    SerialPort serial;
-    private IEnumerator enumerator;
-    void Start()
+    public class punch2 : MonoBehaviour
     {
-        serial = new SerialPort("COM4", 9600);
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-
-
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (!serial.IsOpen)
+        // Use this for initialization
+        SerialPort serial;
+        private IEnumerator enumerator;
+        void Start()
         {
-            serial.Open();
+            serial = new SerialPort("COM4", 9600);
+
         }
-        serial.Write("2");
-        enumerator = ExecuteAfterTime(.25f);
-        StartCoroutine(enumerator);
 
-         serial.Close();
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+
+
+
+
+        void OnTriggerEnter(Collider other)
+        {
+            if (!serial.IsOpen)
+            {
+                serial.Open();
+            }
+            serial.Write("2");
+            enumerator = ExecuteAfterTime(.25f);
+            StartCoroutine(enumerator);
+
+            serial.Close();
+    
+
+        }
+
+        IEnumerator ExecuteAfterTime(float time)
+        {
+            yield return new WaitForSeconds(time);
+            Debug.Log("Executing after .25 seconds");
+            serial.Write("0");
+
+            // Code to execute after the delay
+
+
+        }
+
     }
-
-    IEnumerator ExecuteAfterTime(float time)
-    {
-        yield return new WaitForSeconds(time);
-        Debug.Log("Executing after .25 seconds");
-        serial.Write("0");
-
-        // Code to execute after the delay
-
-
-    }
-
-
-}
 
 
 
