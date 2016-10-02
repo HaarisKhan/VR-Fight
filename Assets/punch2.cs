@@ -34,7 +34,6 @@
             enumerator = ExecuteAfterTime(.25f);
             StartCoroutine(enumerator);
 
-            serial.Close();
     
 
         }
@@ -44,13 +43,14 @@
             yield return new WaitForSeconds(time);
             Debug.Log("Executing after .25 seconds");
             serial.Write("0");
+        serial.Close();
 
-            // Code to execute after the delay
+        // Code to execute after the delay
 
-
-        }
 
     }
+
+}
 
 
 
